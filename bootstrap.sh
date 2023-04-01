@@ -65,6 +65,7 @@ install_dependencies_debian() {
     python3-pip
     aptitude
     direnv
+    snapd
   )
 
   REQUIRED_PACKAGES_ARM64=(
@@ -83,6 +84,11 @@ install_dependencies_debian() {
   yes | $SUDO apt-get -o Dpkg::Options::="--force-confold" -fuy dist-upgrade;
   yes | $SUDO apt-get -o Dpkg::Options::="--force-confold" -fuy install "${REQUIRED_PACKAGES[@]}"
   yes | $SUDO apt-get -o Dpkg::Options::="--force-confold" -fuy autoremove;
+  yes | $SUDO apt-get -o Dpkg::Options::="--force-confold" -fuy remove certbot;
+  yes | $SUDO snap install core;
+  yes | $SUDO snap refresh core;
+  yes | $SUDO snap install --classic certbot;
+  yes | $SUDO ln -s /snap/bin/certbot /usr/bin/certbot;
   [ $(uname -m) == "aarch64" ] && yes | $SUDO apt install -fuy "${REQUIRED_PACKAGES_ARM64[@]}"
   export DEBIAN_FRONTEND=
 }
@@ -132,7 +138,7 @@ if [ -d "$HOME/ansible-easy-vpn" ]; then
   git pull
   popd
 else
-  git clone https://github.com/notthebee/ansible-easy-vpn $HOME/ansible-easy-vpn
+  git clone https://github.com/evanvyz/ansible-easy-vpn $HOME/ansible-easy-vpn
 fi
 
 # Set up a Python venv

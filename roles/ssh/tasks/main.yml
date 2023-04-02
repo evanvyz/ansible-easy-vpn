@@ -21,7 +21,9 @@
         path: /tmp/id_ssh_ed25519
         type: ed25519
         passphrase: "{{ user_password }}"
-        mode: 0666
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: 0600
 
     - name: Install the public key
       ansible.builtin.copy:
@@ -29,7 +31,7 @@
         dest: "/home/{{ username }}/.ssh/authorized_keys"
         owner: "{{ username }}"
         group: "{{ username }}"
-        mode: 0666
+        mode: 0600
 
 - name: Install the existing public key
   when: ssh_public_key is defined

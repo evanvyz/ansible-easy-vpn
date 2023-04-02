@@ -88,7 +88,6 @@ install_dependencies_debian() {
   yes | $SUDO snap install core;
   yes | $SUDO snap refresh core;
   yes | $SUDO snap install --classic certbot;
-  yes | $SUDO ln -s /snap/bin/certbot /usr/bin/certbot;
   [ $(uname -m) == "aarch64" ] && yes | $SUDO apt install -fuy "${REQUIRED_PACKAGES_ARM64[@]}"
   export DEBIAN_FRONTEND=
 }
